@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0c1020">
+  <meta name="theme-color" content="#0c1020">
   <title>𝐃𝐀𝐖𝐄𝐍𝐒 𝐁𝐎𝐘</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
@@ -26,7 +26,7 @@
     }
     
     body {
-      flex-direction: column; /* Ajouté */
+      flex-direction: column;
       justify-content: space-between;
       display: flex;
       justify-content: center;
@@ -102,26 +102,26 @@
       z-index: 1;
     }
     
-.music-btn {
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid var(--glass-border);
-    border-radius: 50px;
-    padding: 10px 20px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
-    transition: 0.3s ease;
-    animation: glow 4s infinite alternate;
-  }
+    .music-btn {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      padding: 10px 20px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: 0.3s ease;
+      animation: glow 4s infinite alternate;
+    }
 
-  .music-btn:hover {
-    transform: scale(1.1);
-    background: rgba(255,255,255,0.15);
-  }
+    .music-btn:hover {
+      transform: scale(1.1);
+      background: rgba(255,255,255,0.15);
+    }
 
     .box::before {
       content: '';
@@ -262,17 +262,25 @@
       box-shadow: 0 0 15px rgba(255, 42, 109, 0.5);
     }
     
+    #waiting-message {
+      display: none;
+      text-align: center;
+      margin: 10px 0;
+      color: var(--secondary);
+      font-weight: 500;
+    }
+    
     #waiting-message::after {
-  content: '⏳';
-  animation: spin 1.2s linear infinite;
-  display: inline-block;
-  margin-left: 8px;
-}
+      content: '⏳';
+      animation: spin 1.2s linear infinite;
+      display: inline-block;
+      margin-left: 8px;
+    }
 
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
     
     #pair {
       min-height: 60px;
@@ -407,6 +415,7 @@
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    
     /* Footer */
     .footer {
       margin-top: 40px;
@@ -448,7 +457,6 @@
       color: var(--accent);
       text-shadow: 0 0 8px var(--accent);
     }
-    
   </style>
 </head>
 
@@ -470,105 +478,113 @@
           <div class="logo-text">MINI JESUS CRASH</div>
         </div>
 
-      <button class="music-btn" onclick="document.getElementById('bg-music').play()">
-  🎵 Play Music
-</button>
+        <button class="music-btn" onclick="document.getElementById('bg-music').play()">
+          🎵 Play Music
+        </button>
 
-<audio id="bg-music" src="https://files.catbox.moe/mhecas.mp4"></audio>
+        <audio id="bg-music" src="https://files.catbox.moe/mhecas.mp4"></audio>
 
         <div id="text">
           <h3 class="centered-text">∞ Link with phone number ∞</h3>
           <h6>🇺🇸The WhatsApp bot is created by DAWENS BOY in collaboration with INCONNU BOY Dev🇭🇹</h6>
           <div class="input-container">
             <input placeholder="+241xxxxxxxx" type="tel" id="number" name="number">
-            <button id="submit">enter</button>          
-              <a id="waiting-message" class="centered-text">Processing...</a>
-          <main id="pair"></main>            
-  <footer class="footer">
-    <p>© 2025 <span>MINI JESUS</span> — Created by <strong>𝐃𝐀𝐖𝐄𝐍𝐒 𝐁𝐎𝐘</strong></p>
-    <div class="footer-icons">
-      <a href="https://whatsapp.com/channel/0029VbCHd5V1dAw132PB7M1B" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      <a href="mailto:berryxoe@gmail.com"><i class="fas fa-envelope"></i></a>
-      <a href="https://github.com/Dawensboytech"><i class="fab fa-github"></i></a>
+            <button id="submit">enter</button>
+          </div>
+          
+          <a id="waiting-message" class="centered-text">Processing...</a>
+          <main id="pair"></main>
+        </div>
+      </div>
     </div>
-  </footer>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
-<script>
-  const a = document.getElementById("pair");
-  const b = document.getElementById("submit");
-  const c = document.getElementById("number");
-  const waitingMessage = document.getElementById("waiting-message");
 
-  // Fonction pour copier le code
-  async function Copy() {
-    const text = document.getElementById("copy-value").innerText;
-    const codeDisplay = document.getElementById("code-display");
-    await navigator.clipboard.writeText(text);
+    <footer class="footer">
+      <p>© 2025 <span>MINI JESUS</span> — Created by <strong>𝐃𝐀𝐖𝐄𝐍𝐒 𝐁𝐎𝐘</strong></p>
+      <div class="footer-icons">
+        <a href="https://whatsapp.com/channel/0029VbCHd5V1dAw132PB7M1B" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="mailto:berryxoe@gmail.com"><i class="fas fa-envelope"></i></a>
+        <a href="https://github.com/Dawensboytech"><i class="fab fa-github"></i></a>
+      </div>
+    </footer>
+  </div>
 
-    codeDisplay.innerHTML = '<i class="fas fa-check" style="color:#00ff00; margin-right:8px;"></i> COPIED!';
-    codeDisplay.style.background = 'rgba(0, 255, 0, 0.1)';
-    codeDisplay.style.border = '1px solid rgba(0, 255, 0, 0.3)';
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    const a = document.getElementById("pair");
+    const b = document.getElementById("submit");
+    const c = document.getElementById("number");
+    const waitingMessage = document.getElementById("waiting-message");
 
-    setTimeout(() => {
-      codeDisplay.innerHTML = `
-        <i class="fas fa-copy" style="color:var(--secondary);"></i>
-        <span class="code-text">CODE:</span>
-        <span class="code-value" id="copy-value">${text}</span>
-      `;
-      codeDisplay.style.background = 'rgba(0, 0, 0, 0.3)';
-      codeDisplay.style.border = '1px solid var(--glass-border)';
-    }, 2000);
-  }
+    // Fonction pour copier le code
+    async function Copy() {
+      const text = document.getElementById("copy-value").innerText;
+      const codeDisplay = document.getElementById("code-display");
+      await navigator.clipboard.writeText(text);
 
-  // Gestion du bouton
-  b.addEventListener("click", async (e) => {
-    e.preventDefault();
+      codeDisplay.innerHTML = '<i class="fas fa-check" style="color:#00ff00; margin-right:8px;"></i> COPIED!';
+      codeDisplay.style.background = 'rgba(0, 255, 0, 0.1)';
+      codeDisplay.style.border = '1px solid rgba(0, 255, 0, 0.3)';
 
-    const number = c.value.trim();
-
-    if (!number) {
-      a.innerHTML = `
-        <div style="color:var(--accent);font-weight:500;background:rgba(255,42,109,0.1);padding:10px;border-radius:8px;border:1px solid rgba(255,42,109,0.3)">
-          <i class="fas fa-exclamation-circle"></i> Enter your WhatsApp number with country code.
-        </div>`;
-      return;
-    }
-
-    const num = number.replace(/[^0-9]/g, "");
-    if (num.length < 11) {
-      a.innerHTML = `
-        <div style="color:var(--accent);font-weight:500;background:rgba(255,42,109,0.1);padding:10px;border-radius:8px;border:1px solid rgba(255,42,109,0.3)">
-          <i class="fas fa-times"></i> Invalid number format.
-        </div>`;
-      return;
-    }
-
-    // Affichage du message d'attente
-    waitingMessage.style.display = "block";
-    a.innerHTML = "";
-
-    try {
-      // Appel vers ton backend sur /pair (pas /code)
-      const response = await axios.get(`/pair?number=${num}`);
-      const code = response.data?.code || "Service Unavailable";
-
-      waitingMessage.style.display = "none";
-
-      a.innerHTML = `
-        <div class="code-display pulse" id="code-display" onclick="Copy()">
+      setTimeout(() => {
+        codeDisplay.innerHTML = `
           <i class="fas fa-copy" style="color:var(--secondary);"></i>
           <span class="code-text">CODE:</span>
-          <span class="code-value" id="copy-value">${code}</span>
-        </div>`;
-    } catch (error) {
-      waitingMessage.style.display = "none";
-      a.innerHTML = `
-        <div style="color:var(--accent);font-weight:500;background:rgba(255,42,109,0.1);padding:10px;border-radius:8px;border:1px solid rgba(255,42,109,0.3)">
-          <i class="fas fa-exclamation-triangle"></i> Service Unavailable.
-        </div>`;
-      console.error(error);
+          <span class="code-value" id="copy-value">${text}</span>
+        `;
+        codeDisplay.style.background = 'rgba(0, 0, 0, 0.3)';
+        codeDisplay.style.border = '1px solid var(--glass-border)';
+      }, 2000);
     }
-  });
-</script>
+
+    // Gestion du bouton
+    b.addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      const number = c.value.trim();
+
+      if (!number) {
+        a.innerHTML = `
+          <div style="color:var(--accent);font-weight:500;background:rgba(255,42,109,0.1);padding:10px;border-radius:8px;border:1px solid rgba(255,42,109,0.3)">
+            <i class="fas fa-exclamation-circle"></i> Enter your WhatsApp number with country code.
+          </div>`;
+        return;
+      }
+
+      const num = number.replace(/[^0-9]/g, "");
+      if (num.length < 11) {
+        a.innerHTML = `
+          <div style="color:var(--accent);font-weight:500;background:rgba(255,42,109,0.1);padding:10px;border-radius:8px;border:1px solid rgba(255,42,109,0.3)">
+            <i class="fas fa-times"></i> Invalid number format.
+          </div>`;
+        return;
+      }
+
+      // Affichage du message d'attente
+      waitingMessage.style.display = "block";
+      a.innerHTML = "";
+
+      try {
+        // CORRECTION : utilisation de /code au lieu de /pair
+        const response = await axios.get(`/code?number=${num}`);
+        const code = response.data?.code || "Service Unavailable";
+
+        waitingMessage.style.display = "none";
+
+        a.innerHTML = `
+          <div class="code-display pulse" id="code-display" onclick="Copy()">
+            <i class="fas fa-copy" style="color:var(--secondary);"></i>
+            <span class="code-text">CODE:</span>
+            <span class="code-value" id="copy-value">${code}</span>
+          </div>`;
+      } catch (error) {
+        waitingMessage.style.display = "none";
+        a.innerHTML = `
+          <div style="color:var(--accent);font-weight:500;background:rgba(255,42,109,0.1);padding:10px;border-radius:8px;border:1px solid rgba(255,42,109,0.3)">
+            <i class="fas fa-exclamation-triangle"></i> Service Unavailable.
+          </div>`;
+        console.error(error);
+      }
+    });
+  </script>
 </body>
-</html>
+  </html>
