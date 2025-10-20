@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#071023" />
+  <title>MINI-JESUS - Extended</title>
+  <link rel="shortcut icon" href="https://files.catbox.moe/fi2gjj.jpg" type="image/x-icon">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <style>
+    /* ============================
+       Variables & reset
+       ============================ */
+    :root{
+      --bg-1:#071023;
+      --bg-2:#081227;
+      --glass: rgba(255,255,255,0.04);
+      --accent1:#8a2be2;
+      --accent2:#00f7ff;
+      --accent3:#ff2a6d;
+      --muted: rgba(255,255,255,0.6);
+      --card: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: Inter, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(138,43,226,0.08), transparent),
+                  radial-gradient(1000px 500px at 90% 90%, rgba(0,247,255,0.06), transparent),
+                  linear-gradient(180deg,var(--bg-1),var(--bg-2));
+      color:#fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-y:auto;
+      padding-bottom:120px;
+    }
+
+    /* ============================
+       Layout
+       ============================ */
+    .wrap{
+      width:100%;
+      max-width:1180px;
+      margin:28px auto;
+      padding:20px;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:24px;
+      align-items:start;
+    }
+
+    /* Left column: main content */
+    .main {
+      min-height:200px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:14px;
+      padding:18px;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      backdrop-filter: blur(8px);
+      margin-bottom:18px;
+    }
+
+    header.site-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .brand .logo {
+      width:56px;height:56px;border-radius:10px;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      display:flex;align-items:center;justify-content:center;
+      font-weight:800;font-family: "Orbitron", sans-serif;
+      font-size:18px;color:#001;
+      box-shadow:0 6px 20px rgba(138,43,226,0.12);
+    }
+    .brand .title{
+      font-weight:700;font-size:16px;letter-spacing:0.6px;
+    }
+    .brand .subtitle{font-size:12px;color:var(--muted)}
+
+    /* Right column: sidebar */
+    .sidebar{
+      position:sticky;
+      top:24px;
+      align-self:start;
+    }
+
+    /* Buttons grid */
+    .buttons-grid{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:flex-start;
+    }
+
+    .btn {
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:12px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      color:#fff;
+      text-decoration:none;
+      font-weight:700;
+      border:1px solid rgba(255,255,255,0.04);
+      transition:transform .12s ease, box-shadow .12s;
+      position:relative;
+      overflow:hidden;
+    }
+    .btn:hover{ transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.6) }
+
+    .btn .icon { font-size:18px; opacity:0.95 }
+
+    /* Music button special */
+    .music-btn {
+      background: linear-gradient(90deg,var(--accent3),var(--accent1));
+      color:#001;
+      padding:12px 16px;
+      border-radius:999px;
+      box-shadow: 0 8px 30px rgba(138,43,226,0.12);
+    }
+
+    /* ============================
+       Fancy background particles
+       ============================ */
+    .particles {
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+    }
+    .particle {
+      position:absolute;
+      border-radius:50%;
+      opacity:0.12;
+      filter:blur(8px);
+      transform:translate3d(0,0,0);
+      mix-blend-mode:screen;
+    }
+
+    /* ============================
+       Sections & long content
+       ============================ */
+    .hero{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+      padding:18px;
+      border-radius:12px;
+    }
+
+    .hero-left {flex:1}
+    .hero-right {width:260px}
+
+    .hero h1{
+      font-family: 'Orbitron', sans-serif;
+      font-size:28px;
+      line-height:1.05;
+      margin-bottom:6px;
+      background: linear-gradient(90deg,var(--accent2),var(--accent1));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .hero p.lead{color:var(--muted); margin-bottom:12px}
+
+    /* large code-like block */
+    .code-sample{
+      background: rgba(0,0,0,0.25);
+      border-radius:10px;
+      padding:14px;
+      font-family: "SFMono-Regular", Menlo, Monaco, monospace;
+      font-size:13px;
+      line-height:1.5;
+      color:#d6f7ff;
+      overflow:auto;
+      max-height:220px;
+    }
+
+    /* Big gallery/tweak area to add "many design" */
+    .design-grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    .design-item{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:10px; padding:12px; min-height:90px;
+      display:flex; align-items:center; justify-content:center; text-align:center;
+      border:1px solid rgba(255,255,255,0.03);
+      font-weight:700;
+      font-size:13px;
+    }
+
+    /* ============================
+       "Ekriti" sections — 5 of them
+       ============================ */
+    .ekriti {
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:12px;
+    }
+    .ekriti .block{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:10px; padding:14px;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 6px 20px rgba(2,6,23,0.5);
+    }
+    .ekriti h4 { font-family: 'Orbitron', sans-serif; color:var(--accent1); margin-bottom:6px }
+    .ekriti p { color:var(--muted); font-size:14px; line-height:1.6 }
+
+    /* ============================
+       footer
+       ============================ */
+    footer.site-footer{
+      position:fixed; bottom:10px; left:50%; transform:translateX(-50%);
+      width:calc(100% - 40px); max-width:1180px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 14px; border-radius:10px; background:rgba(0,0,0,0.4);
+      border:1px solid rgba(255,255,255,0.03); color:var(--muted);
+    }
+
+    /* responsive */
+    @media (max-width:980px){
+      .wrap{ grid-template-columns:1fr; padding:14px}
+      .sidebar{ position:static; width:100% }
+      .hero-right{ display:none }
+      .design-grid{ grid-template-columns: repeat(2,1fr) }
+    }
+    @media (max-width:540px){
+      .design-grid{ grid-template-columns: 1fr }
+      .brand .logo{ width:46px;height:46px }
+      .btn{ width:100% ; justify-content:center}
+    }
+
+    /* ============================
+       Extra "long text" filler for many lines
+       ============================ */
+    .long-filler p { margin-bottom:10px; color:var(--muted) }
+    .muted { color:var(--muted); font-size:13px }
+    .tag { display:inline-block; background:rgba(255,255,255,0.03); padding:6px 10px; border-radius:8px; font-weight:700; font-size:12px }
+  </style>
+</head>
+<body>
+
+  <!-- Particles layer -->
+  <div class="particles" aria-hidden="true">
+    <div class="particle" style="width:220px;height:220px;left:10%;top:10%;background:radial-gradient(circle,#8a2be2,#001);"></div>
+    <div class="particle" style="width:160px;height:160px;left:75%;top:20%;background:radial-gradient(circle,#00f7ff,#001);"></div>
+    <div class="particle" style="width:120px;height:120px;left:40%;top:70%;background:radial-gradient(circle,#ff2a6d,#001);"></div>
+    <div class="particle" style="width:80px;height:80px;left:85%;top:80%;background:radial-gradient(circle,#7a00ff,#001);"></div>
+  </div>
+
+  <div class="wrap" role="main">
+
+    <!-- LEFT: main content -->
+    <div class="main">
+
+      <header class="site-header card">
+        <div class="brand">
+          <div class="logo">MJ</div>
+          <div>
+            <div class="title">MNI-JESUS — Extended UI</div>
+            <div class="subtitle">Model: WhatsApp Bot • Multi-design demo</div>
+          </div>
+        </div>
+
+        <div class="meta">
+          <div class="muted">Status: <span class="tag">Online</span></div>
+        </div>
+      </header>
+
+      <!-- HERO -->
+      <section class="card hero" aria-label="hero">
+        <div class="hero-left">
+          <h1>Model Bot WhatsApp — MINI-JESUS</h1>
+          <p class="lead">Yon modèl entegre pou pairing, QR, ak sipò sosyal. Paj sa a fèt pou prezante anpil estil, tèks (ekriti), konsepsyon, ak fonksyonalite.</p>
+
+          <div class="code-sample" aria-hidden="false">
+<pre>// Example: pairing endpoint call
+GET /pair?number=%2B50939032060
+Response:
+{
+  "code": "ABC123DEF",
+  "expires": 180
+}
+</pre>
+          </div>
+
+          <!-- Design grid (many items) -->
+          <div class="design-grid" aria-hidden="false">
+            <div class="design-item">Glass Card</div>
+            <div class="design-item">Neon Border</div>
+            <div class="design-item">Animated Gradient</div>
+            <div class="design-item">Profile Widget</div>
+            <div class="design-item">Action Buttons</div>
+            <div class="design-item">Tiny Stats</div>
+            <div class="design-item">QR Preview</div>
+            <div class="design-item">Pair Code Area</div>
+            <div class="design-item">Log Stream</div>
+          </div>
+        </div>
+
+        <aside class="hero-right">
+          <div class="card" style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:10px">
+              <img src="https://files.catbox.moe/zq1kuc.jpg" alt="avatar" style="width:56px;height:56px;border-radius:10px;border:2px solid rgba(0,255,200,0.08)">
+              <div>
+                <div style="font-weight:800">Dev DAWENS</div>
+                <div class="muted">Bot Creator • Lead Dev</div>
+              </div>
+            </div>
+            <div class="muted">Mini description: A lightweight but powerful WhatsApp bot model ready to be paired.</div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px">
+              <a class="btn" href="/qr" target="_blank"><i class="icon bx bx-qr"></i> QR</a>
+              <a class="btn" href="/pair" target="_blank"><i class="icon bx bx-link"></i> Pair</a>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <!-- EKRITI SECTIONS (5) -->
+      <section class="card ekriti" aria-label="ekriti-list">
+        <!-- 1 -->
+        <div class="block">
+          <h4>Plen ekriti — 01</h4>
+          <p>Plen ekriti</p>
+          <p class="muted">Yon paragraf eksplikasyon: Modèl sa a gen fonksyon pairing, otomatik reskons, ak sipò pou plizyè chanèl. Ou ka itilize QR oswa kòd pairing. Se yon demonstrasyon ak plizyè konpozan UI.</p>
+          <div class="long-filler">
+            <p>Plen ekriti</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nibh sed ultricies posuere, dolor arcu dictum orci, a fermentum felis augue id lorem.</p>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="block">
+          <h4>Plen ekriti — 02</h4>
+          <p>Plen ekriti</p>
+          <p class="muted">Seksyon sa a montre yon lòt blok tèks — ideyal pou forklike etap enstalasyon, oswa politik itilize.</p>
+          <ul style="margin-top:8px;color:var(--muted);line-height:1.6">
+            <li>Etap 1: Kreye env vars</li>
+            <li>Etap 2: Lanse sèvis la</li>
+            <li>Etap 3: Konfime ak telefòn</li>
+          </ul>
+        </div>
+
+        <!-- 3 -->
+        <div class="block">
+          <h4>Plen ekriti — 03</h4>
+          <p>Plen ekriti</p>
+          <p class="muted">Addisyonèl nòt teknik: Ou dwe verifye CORS sou backend ou, asire w SSL ap mache, epi gen throttling si gen anpil demann.</p>
+          <p class="muted">Exemple config:</p>
+          <div class="code-sample">
+<pre>ENV:
+  PORT=3000
+  BASE_URL=https://mydomain.tld
+  PAIR_SECRET=your-secret
+</pre>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="block">
+          <h4>Plen ekriti — 04</h4>
+          <p>Plen ekriti</p>
+          <p class="muted">Seksyon sa a se pou ekriti marketing, mesaj welcome, oswa lòt kopi enpòtan.</p>
+          <p><strong>Exemple welcome message:</strong> "Byenveni! Ou konekte ak MINI JESUS CRASH Bot — pou jwenn èd, ekri HELP."</p>
+        </div>
+
+        <!-- 5 -->
+        <div class="block">
+          <h4>Plen ekriti — 05</h4>
+          <p>Plen ekriti</p>
+          <p class="muted">Final block: Resous, lyen GitHub, ak kontak. Ou ka modifye tèks sa yo fasilman.</p>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <a class="btn" href="https://github.com/Dawensboytech" target="_blank"><i class="icon bx bxl-github"></i> GitHub</a>
+            <a class="btn" href="https://whatsapp.com/channel/0029VbCHd5V1dAw132PB7M1B" target="_blank"><i class="icon bx bxl-whatsapp"></i> WhatsApp</a>
+            <a class="btn" href="https://t.me/Mr_Da5" target="_blank"><i class="icon bx bxl-telegram"></i> Telegram</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- LONG FILLER: many paragraphs to reach many lines -->
+      <section class="card long-filler" aria-label="long-filler">
+        <h3 style="font-family:'Orbitron',sans-serif;color:var(--accent2);margin-bottom:8px">Long content & design details</h3>
+
+        <!-- Repeat many paragraphs, descriptions, small notes -->
+        <p>Plen ekriti — full text block, repeated to create long page content and demonstrate layout with many lines for Koder editor.</p>
+        <p class="muted">Note: This is filler text intentionally long to reach multiple lines for preview & sharing. You can replace any paragraph with real documentation.</p>
+
+        <p>Architecture:</p>
+        <ul class="muted">
+          <li>Server: Node.js / Express</li>
+          <li>Storage: Redis for sessions</li>
+          <li>Queue: BullMQ</li>
+          <li>Frontend: Static HTML/CSS + minimal JS</li>
+        </ul>
+
+        <p>Design notes: Add gradients, neon borders, glass morphism, and subtle particles for modern aesthetic.</p>
+
+        <p class="muted">Accessibility tips: Provide alt text, focus states, keyboard navigation, and sufficient contrast.</p>
+
+        <p>Deployment tips: Use Railway / Vercel / Render for quick deploy, and activate automatic restarts.</p>
+
+        <p class="muted">Security: Keep secrets out of repo. Use environment variables and secret managers.</p>
+
+        <p>Monitoring: Integrate Sentry or Logflare for logs & error tracking.</p>
+
+        <p class="muted">Testing: Unit tests + e2e tests (Playwright) recommended for production bots.</p>
+
+        <p>Performance: Serve assets with CDN and compress responses (brotli/gzip).</p>
+
+      </section>
+
+      <!-- Another design showcase block (visual heavy) -->
+      <section class="card">
+        <h3 style="font-family:'Orbitron',sans-serif;color:var(--accent1);margin-bottom:10px">Design Showcase</h3>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px">
+            <div style="padding:12px;border-radius:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03)">
+              <div style="font-weight:800;margin-bottom:6px">Widget: Pair Status</div>
+              <div class="muted">Status: <span class="tag">Connected</span></div>
+              <div style="height:8px"></div>
+              <div class="code-sample" style="max-height:120px">PairID: A1B2C3D4E5
+Expires: 180s
+Phone: +509-39xxxxxxx</div>
+            </div>
+          </div>
+
+          <div style="flex:1;min-width:220px">
+            <div style="padding:12px;border-radius:10px;background:linear-gradient(135deg, rgba(138,43,226,0.06), rgba(0,247,255,0.02));border:1px solid rgba(255,255,255,0.03)">
+              <div style="font-weight:800;margin-bottom:6px">Widget: Quick Actions</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <a class="btn" href="/pair">Pair Now</a>
+                <a class="btn" href="/qr">Show QR</a>
+                <a class="btn" href="https://github.com/Dawensboytech/MINI-JESUS-CRASH-/fork" target="_blank"><i class="bx bxl-github"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- RIGHT: sidebar -->
+    <aside class="sidebar">
+
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div>
+            <div style="font-weight:800">Quick Links</div>
+            <div class="muted" style="font-size:13px">Open frequently used pages</div>
+          </div>
+          <div class="tag">v1.0</div>
+        </div>
+
+        <div class="buttons-grid" style="margin-top:8px">
+          <a class="btn" href="/qr" target="_blank"><i class="bx bx-qr icon"></i>QR</a>
+          <a class="btn" href="/pair" target="_blank"><i class="bx bx-link icon"></i>Pair</a>
+          <a class="btn" href="https://github.com/Dawensboytech/MINI-JESUS-CRASH-/fork" target="_blank"><i class="bx bxl-github icon"></i>GitHub</a>
+          <a class="btn" href="https://whatsapp.com/channel/0029VbCHd5V1dAw132PB7M1B" target="_blank"><i class="bx bxl-whatsapp icon"></i>WhatsApp</a>
+          <a class="btn" href="https://t.me/Mr_Da5" target="_blank"><i class="bx bxl-telegram icon"></i>Telegram</a>
+        </div>
+
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-weight:800">Music</div>
+            <div class="muted">Play ambient audio</div>
+          </div>
+          <div>
+            <button id="musicToggleSidebar" class="btn music-btn"><i class="bx bx-play"></i><span style="margin-left:8px">Play</span></button>
+          </div>
+        </div>
+        <div style="margin-top:12px" class="muted">Tip: Use the music control to preview audio without leaving the page.</div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div style="font-weight:800;margin-bottom:8px">Design Extras</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <div class="btn" onclick="toggleNeon()">Toggle Neon</div>
+          <div class="btn" onclick="addParticle()">Add Particle</div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- footer -->
+  <footer class="site-footer">
+    <div>MINI-JESUS • Model Bot WhatsApp — <span class="muted">Demo & Design</span></div>
+    <div class="muted">© <span id="year"></span> Dev DAWENS</div>
+  </footer>
+
+  <!-- Audio element -->
+  <audio id="bgMusic" src="https://files.catbox.moe/mhecas.mp4" preload="none"></audio>
+
+  <script>
+    // Set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // MUSIC toggle buttons
+    const music = document.getElementById('bgMusic');
+    const btnMain = document.getElementById('musicToggleSidebar');
+    // A secondary button might exist in main; handle gracefully
+    const mainBtn = document.getElementById('musicToggle');
+    function updateMusicButtons(isPlaying){
+      // update both if present
+      if(btnMain){
+        btnMain.innerHTML = isPlaying ? "<i class='bx bx-pause'></i><span style='margin-left:8px'>Pause</span>" : "<i class='bx bx-play'></i><span style='margin-left:8px'>Play</span>";
+      }
+      if(mainBtn){
+        mainBtn.innerHTML = isPlaying ? "<i class='bx bx-pause'></i> Pause Music" : "<i class='bx bx-play'></i> Play Music";
+      }
+    }
+
+    if(btnMain){
+      btnMain.addEventListener('click', () => {
+        if (music.paused) {
+          music.play().catch(()=>{ /* autoplay blocked; user interaction required */});
+          updateMusicButtons(true);
+        } else {
+          music.pause();
+          updateMusicButtons(false);
+        }
+      });
+    }
+
+    if(mainBtn){
+      mainBtn.addEventListener('click', () => {
+        if (music.paused) {
+          music.play().catch(()=>{});
+          updateMusicButtons(true);
+        } else {
+          music.pause();
+          updateMusicButtons(false);
+        }
+      });
+    }
+
+    // Particles helper
+    function addParticle(){
+      const p = document.createElement('div');
+      p.className = 'particle';
+      const size = Math.floor(40 + Math.random()*180);
+      p.style.width = size+'px';
+      p.style.height = size+'px';
+      p.style.left = (Math.random()*90)+'%';
+      p.style.top = (Math.random()*90)+'%';
+      const colors = [
+        'radial-gradient(circle,#8a2be2,#001)',
+        'radial-gradient(circle,#00f7ff,#001)',
+        'radial-gradient(circle,#ff2a6d,#001)',
+        'radial-gradient(circle,#7a00ff,#001)',
+        'radial-gradient(circle,#00ff99,#001)'
+      ];
+      p.style.background = colors[Math.floor(Math.random()*colors.length)];
+      document.querySelector('.particles').appendChild(p);
+      setTimeout(()=>p.remove(), 12000);
+    }
+
+    // Toggle neon (simple demonstration)
+    function toggleNeon(){
+      document.body.classList.toggle('neon');
+      if(document.body.classList.contains('neon')){
+        document.body.style.background = 'linear-gradient(270deg, #ff0080, #ff7300, #ffd300, #00ff88, #00e0ff, #0055ff, #7a00ff, #ff00c8, #ff0088, #00ff99)';
+      } else {
+        document.body.style.background = 'radial-gradient(1200px 600px at 10% 10%, rgba(138,43,226,0.08), transparent), radial-gradient(1000px 500px at 90% 90%, rgba(0,247,255,0.06), transparent), linear-gradient(180deg,#071023,#081227)';
+      }
+    }
+
+    // Optional: progressively create many lines (simulate "reach 500 lines" by adding dummy text)
+    // This will add lines only on demand to keep initial load small.
+    function addManyLines(count){
+      const container = document.querySelector('.long-filler');
+      for(let i=0;i<count;i++){
+        const p = document.createElement('p');
+        p.className = 'muted';
+        p.textContent = `Filler line ${i+1} — Plen ekriti: Demonstration content for editor lines. Replace with real docs.`;
+        container.appendChild(p);
+      }
+    }
+
+    // If you want to pre-fill many lines automatically uncomment:
+    // addManyLines(120);
+
+    // --- Accessibility: keyboard toggle for music (M key) ---
+    window.addEventListener('keydown',(e)=>{
+      if(e.key.toLowerCase()==='m'){
+        if(music.paused){ music.play(); updateMusicButtons(true) } else { music.pause(); updateMusicButtons(false) }
+      }
+    });
+
+    // Ensure icons (boxicons) loaded fallback protection
+    (function checkBoxicons(){
+      // If bx icons not rendered, you can dynamically inject link as fallback (already added)
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: MINI JESUS-pair-site
+    env: docker
+    plan: free
+    branch: main
+    repo: https://github.com/Dawensboytech/MINI-JESUS-CRASH-
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true

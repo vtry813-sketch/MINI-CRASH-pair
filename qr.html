@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MINI-JESUS QR SCANNER</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/7d6d5b6a7e.js" crossorigin="anonymous"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: radial-gradient(circle at center, #000010, #010114, #000);
+      color: white;
+    }
+
+    /* BACKGROUND LIGHT GRID */
+    .light-grid {
+      position: fixed;
+      top: 0; left: 0;
+      width: 200%;
+      height: 200%;
+      background: repeating-linear-gradient(45deg, rgba(0,255,255,0.05) 0px, rgba(0,255,255,0.05) 1px, transparent 1px, transparent 50px),
+                  repeating-linear-gradient(-45deg, rgba(255,0,255,0.05) 0px, rgba(255,0,255,0.05) 1px, transparent 1px, transparent 50px);
+      animation: gridMove 40s linear infinite;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    @keyframes gridMove {
+      from { transform: translate(0,0) scale(1.2); }
+      to { transform: translate(-25%, -25%) scale(1.2); }
+    }
+
+    /* SMOKE BACKGROUND */
+    .fog {
+      position: fixed;
+      top: 0; left: 0;
+      width: 200%;
+      height: 200%;
+      background: url('https://i.imgur.com/WC4uUyi.png') repeat;
+      background-size: cover;
+      opacity: 0.35;
+      animation: fogMove 70s linear infinite;
+      z-index: 0;
+      mix-blend-mode: lighten;
+    }
+
+    @keyframes fogMove {
+      from { transform: translate(0,0) scale(1.4); }
+      to { transform: translate(-50%, -50%) scale(1.4); }
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      position: relative;
+      z-index: 5;
+      width: 350px;
+      padding: 2rem;
+      border-radius: 25px;
+      background: rgba(0, 0, 0, 0.75);
+      box-shadow:
+        0 0 20px rgba(0, 255, 255, 0.3),
+        0 0 50px rgba(255, 0, 255, 0.2),
+        inset 0 0 40px rgba(0, 200, 255, 0.15);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(0,255,255,0.3);
+      text-align: center;
+      animation: glowBox 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowBox {
+      0% {
+        box-shadow: 0 0 20px #00ffff, 0 0 60px #0077ff, inset 0 0 30px #00ffff;
+      }
+      50% {
+        box-shadow: 0 0 25px #ff00ff, 0 0 80px #ff0088, inset 0 0 35px #ff00ff;
+      }
+      100% {
+        box-shadow: 0 0 20px #00ffcc, 0 0 60px #00ffff, inset 0 0 30px #00ffff;
+      }
+    }
+
+    /* PROFILE IMAGE */
+    .profile {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid #00ffff;
+      margin: 0 auto 15px auto;
+      box-shadow: 0 0 30px #00ffff;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 25px #00ffff; }
+      50% { transform: scale(1.05); box-shadow: 0 0 50px #ff00ff; }
+    }
+
+    h2 {
+      margin-bottom: 0.3rem;
+      font-size: 1.8rem;
+      background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffcc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientText 6s infinite linear;
+    }
+
+    @keyframes gradientText {
+      to { background-position: 200% center; }
+    }
+
+    p.legend {
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 1rem;
+    }
+
+    /* QR IMAGE */
+    #qr-image {
+      width: 90%;
+      border-radius: 15px;
+      margin: 1rem 0;
+      box-shadow: 0 0 25px rgba(0,255,255,0.4);
+      animation: qrGlow 5s infinite alternate ease-in-out;
+    }
+
+    @keyframes qrGlow {
+      0% { box-shadow: 0 0 20px #00ffff; }
+      50% { box-shadow: 0 0 35px #ff00ff; }
+      100% { box-shadow: 0 0 25px #00ffff; }
+    }
+
+    /* BUTTON */
+    .reload-button {
+      display: inline-block;
+      padding: 10px 25px;
+      margin-top: 1rem;
+      border-radius: 12px;
+      background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffcc);
+      background-size: 300% 300%;
+      animation: btnGlow 6s ease infinite;
+      border: none;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .reload-button:hover {
+      transform: scale(1.07);
+    }
+
+    @keyframes btnGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* SOCIAL ICONS */
+    .social {
+      display: flex;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 1.8rem;
+    }
+
+    .social a {
+      color: #fff;
+      font-size: 1.8rem;
+      transition: 0.3s ease;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .social a:hover {
+      transform: scale(1.2);
+      color: #00ffff;
+      text-shadow: 0 0 20px #00ffff, 0 0 40px #ff00ff;
+    }
+
+    /* LIGHT BEAMS BACKGROUND */
+    .light-beam {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 120%;
+      height: 120%;
+      background: conic-gradient(from 180deg at 50% 50%, rgba(255,0,255,0.1), rgba(0,255,255,0.15), rgba(255,255,0,0.1), rgba(0,255,255,0.15));
+      animation: spinBeam 30s linear infinite;
+      z-index: 2;
+      mix-blend-mode: color-dodge;
+      opacity: 0.5;
+    }
+
+    @keyframes spinBeam {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* PROGRESS BAR */
+    progress {
+      width: 80%;
+      height: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 1rem;
+      background: rgba(255,255,255,0.2);
+    }
+
+    progress::-webkit-progress-bar {
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 10px;
+    }
+
+    progress::-webkit-progress-value {
+      background: linear-gradient(90deg, #00ffff, #ff00ff);
+      border-radius: 10px;
+      animation: progressGlow 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes progressGlow {
+      0% { opacity: 0.7; }
+      100% { opacity: 1; }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="light-grid"></div>
+  <div class="fog"></div>
+  <div class="light-beam"></div>
+
+  <div class="container">
+    <img src="https://files.catbox.moe/x16nfd.png" alt="Profile" class="profile">
+
+    <h2>MINI-JESUS QR</h2>
+    <p class="legend" id="legend">Scan The QR Code Below</p>
+
+    <img id="qr-image" src="/server" alt="QR CODE">
+
+    <progress value="0" max="30" id="progressBar"></progress>
+
+    <a href="javascript:history.go(0)" class="reload-button">Reload Page</a>
+
+    <div class="social">
+      <a href="https://github.com/Dawensboytech" target="_blank"><i class="fab fa-github"></i></a>
+      <a href="https://wa.me/50942241547" target="_blank"><i class="fab fa-whatsapp"></i></a>
+      <a href="https://t.me/Mr_Da5" target="_blank"><i class="fab fa-telegram"></i></a>
+    </div>
+  </div>
+
+  <script>
+    var timeleft = 30;
+    var timer = setInterval(function() {
+      if (timeleft <= 0) {
+        clearInterval(timer);
+        document.getElementById("progressBar").remove();
+        document.getElementById("legend").innerText = "QR Expired! Please Reload";
+      }
+      document.getElementById("progressBar").value = 30 - timeleft;
+      timeleft -= 1;
+    }, 1000);
+  </script>
+
+</body>
+</html>
