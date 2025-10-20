@@ -23,8 +23,8 @@ RUN npm install -g pm2
 # Copy package files first for better layer caching
 COPY package*.json ./
 
-# Install app dependencies
-RUN npm install
+# Install app dependencies while ignoring peer dependency conflicts
+RUN npm install --legacy-peer-deps
 
 # Copy all files (except those in .dockerignore)
 COPY . .
@@ -41,6 +41,3 @@ EXPOSE 3000
 
 # Start the app using PM2 (recommended for production)
 CMD ["pm2-runtime", "start", "index.js"]
-
-# Alternative without PM2:
-# CMD ["node", "--experimental-specifier-resolution=node", "index.js"]
